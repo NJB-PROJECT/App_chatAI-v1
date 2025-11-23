@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- AI Model Selection -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AI Model Version"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+        <RadioButton
+            android:id="@+id/rbFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gemini 1.5 Flash (Fast)"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/rbPro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gemini 1.5 Pro (Smart)"
+            android:layout_weight="1"/>
+    </RadioGroup>
+
+    <!-- API Key Settings -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="API Key Configuration"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchCustomKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I have my own API Key"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilApiKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Paste your Gemini API Key here"
+        android:layout_marginBottom="16dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etApiKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Safety Settings (18+) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Content Safety (18+)"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSafetyDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current: Block Some (Default)"
+        android:textColor="#757575"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBarSafety"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="2"
+        android:progress="1"
+        android:tickMarkTint="@color/primary_color"
+        android:thumbTint="@color/primary_color"
+        android:layout_marginBottom="24dp"/>
+        <!-- 0: Allow All (18+), 1: Block Some, 2: Block All -->
+
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Changes"
+        android:backgroundTint="@color/primary_color"/>
+
+</LinearLayout>
