@@ -16,9 +16,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // Default API Key (Placeholder - User should replace this or use the in-app feature)
-        buildConfigField("String", "DEFAULT_API_KEY", "\"YOUR_DEFAULT_API_KEY_HERE\"")
     }
 
     buildTypes {
@@ -64,6 +61,11 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Navigation
+    val navVersion = "2.7.6"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // Markdown rendering (Optional but good for AI chat)
     implementation("io.noties.markwon:core:4.6.2")
