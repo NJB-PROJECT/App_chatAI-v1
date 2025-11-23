@@ -1,6 +1,6 @@
 package com.example.geminichat.data
 
-import com.example.geminichat.BuildConfig
+import com.example.geminichat.utils.Constants
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.HarmCategory
@@ -22,7 +22,7 @@ class GeminiRepository(private val preferenceManager: PreferenceManager) {
         val apiKey = if (isCustomKey && !customKey.isNullOrBlank()) {
             customKey
         } else {
-            BuildConfig.DEFAULT_API_KEY
+            Constants.DEFAULT_API_KEY
         }
 
         val modelName = if (modelType == "pro") "gemini-1.5-pro" else "gemini-1.5-flash"
