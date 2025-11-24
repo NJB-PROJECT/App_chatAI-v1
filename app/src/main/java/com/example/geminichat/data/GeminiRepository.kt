@@ -79,11 +79,14 @@ class GeminiRepository(private val preferenceManager: PreferenceManager) {
             // Handle specific serialization errors from the SDK (often caused by API errors)
             emit("Error: Failed to parse response. Please check your API Key or Internet connection.")
         } catch (e: Exception) {
-            // Check for 404 specifically in the message if possible, though SDK might hide it
-            if (e.message?.contains("404") == true) {
-                 emit("Error: Model not found (404). Please ensure your API Key has access to Gemini 1.5.")
+            // Check for specific error messages
+            val errorMsg = e.message ?: "Unknown error"
+            if (errorMsg.contains("404")) {
+                 emit("Error: Model not found (404). Ensure your API Key works with Gemini 1.5 and the API is enabled.")
+            } else if (errorMsg.contains("API keys are not supported")) {
+                 emit("Error: Invalid API Key Type. You are likely using a Vertex AI project key. Please generate a new key from https://aistudio.google.com.")
             } else {
-                 emit("Error: ${e.message}")
+                 emit("Error: $errorMsg")
             }
         }
     }
