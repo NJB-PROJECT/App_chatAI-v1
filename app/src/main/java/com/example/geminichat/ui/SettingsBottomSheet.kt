@@ -46,7 +46,16 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             binding.etApiKey.setText(viewModel.customApiKey.first() ?: "")
 
             val model = viewModel.modelType.first()
-            if (model == "pro") binding.rbPro.isChecked = true else binding.rbFlash.isChecked = true
+            when (model) {
+                "pro" -> binding.rbPro.isChecked = true
+                "flash" -> binding.rbFlash.isChecked = true
+                "flash8b" -> binding.rbFlash8b.isChecked = true
+                else -> {
+                    binding.rbCustom.isChecked = true
+                    binding.etCustomModel.setText(model)
+                    binding.tilCustomModel.visibility = View.VISIBLE
+                }
+            }
 
             val safety = viewModel.safetyLevel.first()
             binding.seekBarSafety.progress = safety
@@ -61,6 +70,14 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             updateInputState(isChecked)
         }
 
+        binding.rgModel.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rbCustom) {
+                binding.tilCustomModel.visibility = View.VISIBLE
+            } else {
+                binding.tilCustomModel.visibility = View.GONE
+            }
+        }
+
         binding.seekBarSafety.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 updateSafetyLabel(progress)
@@ -72,7 +89,15 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         binding.btnSaveSettings.setOnClickListener {
             val isCustomKey = binding.switchCustomKey.isChecked
             val customKey = binding.etApiKey.text.toString().trim()
-            val model = if (binding.rbPro.isChecked) "pro" else "flash"
+
+            val model = when (binding.rgModel.checkedRadioButtonId) {
+                R.id.rbPro -> "pro"
+                R.id.rbFlash -> "flash"
+                R.id.rbFlash8b -> "flash8b"
+                R.id.rbCustom -> binding.etCustomModel.text.toString().trim().ifEmpty { "gemini-1.5-flash" }
+                else -> "flash"
+            }
+
             val safety = binding.seekBarSafety.progress
 
             viewModel.updateSettings(isCustomKey, customKey, model, safety)

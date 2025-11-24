@@ -25,7 +25,13 @@ class GeminiRepository(private val preferenceManager: PreferenceManager) {
             Constants.DEFAULT_API_KEY
         }
 
-        val modelName = if (modelType == "pro") "gemini-1.5-pro" else "gemini-1.5-flash"
+        // Map short codes to actual model IDs, or use as-is if custom
+        val modelName = when (modelType) {
+            "flash" -> "gemini-1.5-flash"
+            "pro" -> "gemini-1.5-pro"
+            "flash8b" -> "gemini-1.5-flash-8b"
+            else -> modelType // Custom string (e.g., "gemini-3.0-pro")
+        }
 
         // Safety Settings
         // 0: Grant 18+ (BLOCK_NONE)
@@ -69,8 +75,16 @@ class GeminiRepository(private val preferenceManager: PreferenceManager) {
             responseFlow.collect { chunk ->
                 chunk.text?.let { emit(it) }
             }
+        } catch (e: kotlinx.serialization.SerializationException) {
+            // Handle specific serialization errors from the SDK (often caused by API errors)
+            emit("Error: Failed to parse response. Please check your API Key or Internet connection.")
         } catch (e: Exception) {
-            emit("Error: ${e.message}")
+            // Check for 404 specifically in the message if possible, though SDK might hide it
+            if (e.message?.contains("404") == true) {
+                 emit("Error: Model not found (404). Please ensure your API Key has access to Gemini 1.5.")
+            } else {
+                 emit("Error: ${e.message}")
+            }
         }
     }
 }
