@@ -2,6 +2,7 @@ package com.example.geminichat.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.example.geminichat.R
 import com.example.geminichat.databinding.ActivityMainBinding
 
@@ -15,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // The NavHostFragment in XML handles the rest
-        // Ensure ChatFragment is the start destination
+        // Explicitly setup Navigation Controller to ensure graph is loaded
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
     }
 }
